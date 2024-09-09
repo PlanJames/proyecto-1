@@ -46,19 +46,12 @@ public class Usuario {
     }
 
     // Método para cargar usuarios desde un archivo
-    public static List<Usuario> cargarDesdeArchivo(String archivo) throws IOException {
-        List<Usuario> usuarios = new ArrayList<>();
-        try (BufferedReader reader = new BufferedReader(new FileReader(archivo))) {
-            String linea;
-            while ((linea = reader.readLine()) != null) {
-                String[] datos = linea.split(",");
-                String id = datos[1];
-                String telefono = datos[3];
-                Usuario usuario = new Usuario(datos[0], id, datos[2], telefono, datos[4], new ArrayList<>());
-                usuarios.add(usuario);
-            }
-        }
-        return usuarios;
+    public static void cargarDesdeLista(List<String> usuarios) {
+//        for(String linea: usuarios) {
+//            Usuario usuario = new Usuario(usuarios[0], id, usuarios[2], telefono, usuarios[4], new ArrayList<>());
+//        }
+//        return usuarios;
     }
 }
+
 
