@@ -1,23 +1,19 @@
 package org.example;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Usuario {
     private String nombre;
-    private int id;
+    private String id;  // El ID es un String
     private String direccion;
-    private int telefono;
+    private String telefono;  // El teléfono es un String
     private String email;
-    private List<Cuenta> cuentas; // Lista de cuentas asociadas
+    private List<Cuenta> cuentas;  // Lista de cuentas asociadas
 
     // Constructor
-    public Usuario(String nombre, int id, String direccion, int telefono, String email, List<Cuenta> cuentas) {
+    public Usuario(String nombre, String id, String direccion, String telefono, String email, List<Cuenta> cuentas) {
         this.nombre = nombre;
         this.id = id;
         this.direccion = direccion;
@@ -26,12 +22,19 @@ public class Usuario {
         this.cuentas = cuentas;
     }
 
+    // Obtener el nombre del usuario
     public String getNombre() {
         return nombre;
     }
 
+    // Obtener las cuentas asociadas al usuario
     public List<Cuenta> getCuentas() {
         return cuentas;
+    }
+
+    // Método para agregar una cuenta al usuario
+    public void agregarCuenta(Cuenta cuenta) {
+        cuentas.add(cuenta);
     }
 
     // Método para guardar la información del usuario en un archivo
@@ -48,11 +51,9 @@ public class Usuario {
         try (BufferedReader reader = new BufferedReader(new FileReader(archivo))) {
             String linea;
             while ((linea = reader.readLine()) != null) {
-                // Suponiendo que cada línea está en el formato: nombre,id,direccion,telefono,email
                 String[] datos = linea.split(",");
-                // Convertir id y telefono de String a int
-                int id = Integer.parseInt(datos[1]);
-                int telefono = Integer.parseInt(datos[3]);
+                String id = datos[1];
+                String telefono = datos[3];
                 Usuario usuario = new Usuario(datos[0], id, datos[2], telefono, datos[4], new ArrayList<>());
                 usuarios.add(usuario);
             }
@@ -60,3 +61,4 @@ public class Usuario {
         return usuarios;
     }
 }
+
