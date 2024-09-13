@@ -1,18 +1,17 @@
 package org.example;
 
-import java.io.*;
-import java.util.ArrayList;
+import java.io.IOException;
 import java.util.List;
 
 public class Usuario {
     private String nombre;
-    private String id;  // El ID es un String
+    private String id;  // Identificador único del usuario
     private String direccion;
-    private String telefono;  // El teléfono es un String
+    private String telefono;  // Teléfono del usuario
     private String email;
-    private List<Cuenta> cuentas;  // Lista de cuentas asociadas
+    private List<Cuenta> cuentas;  // Lista de cuentas asociadas al usuario
 
-    // Constructor
+    // Constructor de la clase Usuario
     public Usuario(String nombre, String id, String direccion, String telefono, String email, List<Cuenta> cuentas) {
         this.nombre = nombre;
         this.id = id;
@@ -27,31 +26,29 @@ public class Usuario {
         return nombre;
     }
 
-    // Obtener las cuentas asociadas al usuario
+    // Obtener el ID del usuario
+    public String getId() {
+        return id;
+    }
+
+    // Obtener la lista de cuentas del usuario
     public List<Cuenta> getCuentas() {
         return cuentas;
     }
 
-    // Método para agregar una cuenta al usuario
+    // Agregar una cuenta a la lista de cuentas del usuario
     public void agregarCuenta(Cuenta cuenta) {
         cuentas.add(cuenta);
     }
 
-    // Método para guardar la información del usuario en un archivo
-    public void guardarEnArchivo(String archivo) throws IOException {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(archivo, true))) {
-            writer.write(this.nombre + "," + this.id + "," + this.direccion + "," + this.telefono + "," + this.email);
-            writer.newLine();
-        }
-    }
-
-    // Método para cargar usuarios desde un archivo
-    public static void cargarDesdeLista(List<String> usuarios) {
-//        for(String linea: usuarios) {
-//            Usuario usuario = new Usuario(usuarios[0], id, usuarios[2], telefono, usuarios[4], new ArrayList<>());
-//        }
-//        return usuarios;
+    // Guardar la información del usuario en un archivo
+    public void guardarUsuario(FileHandler fileHandler, String archivo) throws IOException {
+        String linea = this.nombre + "," + this.id + "," + this.direccion + "," + this.telefono + "," + this.email;
+        fileHandler.guardarEnArchivo(archivo, linea);
     }
 }
+
+
+
 
 
