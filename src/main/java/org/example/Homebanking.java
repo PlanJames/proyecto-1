@@ -1,20 +1,19 @@
 package org.example;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.ArrayList;
-import java.util.Scanner;
+import java.io.IOException;
+import java.util.*;
 
 public class Homebanking {
-    private Map<String, Usuario> usuarios = new HashMap<>();
-    private Map<String, Cuenta> cuentas = new HashMap<>();
-    private Usuario usuarioActual;
+    private Map<String, Usuario> usuarios = new HashMap<>();  // Mapa para almacenar usuarios por ID
+    private Map<String, Cuenta> cuentas = new HashMap<>();  // Mapa para almacenar cuentas por ID
+    private Usuario usuarioActual;  // Usuario actualmente autenticado
+    private FileHandler fileHandler = new FileHandler();  // Instancia de FileHandler para manejar archivos
 
-    // Constructor
+    // Constructor de la clase Homebanking
     public Homebanking() {}
 
-    // Método para registrar un nuevo usuario
-    public void registrarUsuario(Scanner scanner) {
+    // Registrar un nuevo usuario en el sistema
+    public void registrarUsuario(Scanner scanner) throws IOException {
         System.out.println("Ingrese el ID del usuario:");
         String id = scanner.nextLine();
 
@@ -37,11 +36,62 @@ public class Homebanking {
 
         Usuario usuario = new Usuario(nombre, id, direccion, telefono, email, new ArrayList<>());
         usuarios.put(id, usuario);
+
+        // Guardar el usuario en el archivo
+        usuario.guardarUsuario(fileHandler, "usuarios.txt");
+
         System.out.println("Usuario registrado: " + nombre);
     }
 
-    // Método para iniciar sesión
-    public void iniciarSesion(Scanner scanner) {
+    // Abrir una nueva cuenta para el usuario actual
+    private void abrirCuenta(Scanner scanner) throws IOException {
+        System.out.println("Ingrese el ID de la cuenta:");
+        String cuentaId = scanner.nextLine();
+
+        if (cuentas.containsKey(cuentaId)) {
+            System.out.println("La cuenta ya existe.");
+            return;
+        }
+
+        System.out.println("Ingrese el saldo inicial de la cuenta:");
+        double saldoInicial = scanner.nextDouble();
+        scanner.nextLine();  // Consumir la nueva línea
+
+        Cuenta cuenta = new Cuenta(cuentaId, saldoInicial);
+        usuarioActual.agregarCuenta(cuenta);
+        cuentas.put(cuentaId, cuenta);
+
+        // Guardar la cuenta en el archivo
+        cuenta.guardarCuenta(fileHandler, "cuentas.txt", usuarioActual.getId());
+
+        System.out.println("Cuenta abierta con ID: " + cuentaId);
+    }
+
+    // Realizar una transacción entre dos cuentas
+    private void realizarTransaccion(Scanner scanner) throws IOException {
+        System.out.println("Ingrese el ID de la cuenta origen:");
+        String cuentaOrigenId = scanner.nextLine();
+
+        System.out.println("Ingrese el ID de la cuenta destino:");
+        String cuentaDestinoId = scanner.nextLine();
+
+        System.out.println("Ingrese el monto a transferir:");
+        double cantidad = scanner.nextDouble();
+        scanner.nextLine();  // Consumir la nueva línea
+
+        Cuenta cuentaOrigen = cuentas.get(cuentaOrigenId);
+        Cuenta cuentaDestino = cuentas.get(cuentaDestinoId);
+
+        if (cuentaOrigen != null && cuentaDestino != null) {
+            Transaccion.transfiera(cuentaOrigen, cuentaDestino, cantidad, fileHandler, "transacciones.txt");
+            System.out.println("Transacción realizada: " + cantidad + " de " + cuentaOrigenId + " a " + cuentaDestinoId);
+        } else {
+            System.out.println("Una o ambas cuentas no existen.");
+        }
+    }
+
+    // Iniciar sesión para el usuario
+    public void iniciarSesion(Scanner scanner) throws IOException {
         System.out.println("Ingrese el ID del usuario:");
         String id = scanner.nextLine();
         usuarioActual = usuarios.get(id);
@@ -56,16 +106,15 @@ public class Homebanking {
     }
 
     // Mostrar el menú de opciones para el usuario actual
-    private void mostrarMenuCuenta(Scanner scanner) {
+    private void mostrarMenuCuenta(Scanner scanner) throws IOException {
         while (true) {
             System.out.println("\nOpciones:");
             System.out.println("1. Abrir cuenta");
             System.out.println("2. Realizar transacción");
-            System.out.println("3. Consultar saldo");
-            System.out.println("4. Cerrar sesión");
+            System.out.println("3. Cerrar sesión");
             System.out.print("Seleccione una opción: ");
             int opcion = scanner.nextInt();
-            scanner.nextLine(); // Consumir la nueva línea
+            scanner.nextLine();  // Consumir la nueva línea
 
             switch (opcion) {
                 case 1:
@@ -75,9 +124,6 @@ public class Homebanking {
                     realizarTransaccion(scanner);
                     break;
                 case 3:
-                    consultarSaldo(scanner);
-                    break;
-                case 4:
                     usuarioActual = null;
                     System.out.println("Sesión cerrada.");
                     return;
@@ -87,64 +133,8 @@ public class Homebanking {
         }
     }
 
-    // Método para abrir una cuenta
-    private void abrirCuenta(Scanner scanner) {
-        System.out.println("Ingrese el ID de la cuenta:");
-        String cuentaId = scanner.nextLine();
-
-        if (cuentas.containsKey(cuentaId)) {
-            System.out.println("La cuenta ya existe.");
-            return;
-        }
-
-        System.out.println("Ingrese el saldo inicial de la cuenta:");
-        double saldoInicial = scanner.nextDouble();
-        scanner.nextLine(); // Consumir la nueva línea
-
-        Cuenta cuenta = new Cuenta(cuentaId, saldoInicial);
-        usuarioActual.agregarCuenta(cuenta);
-        cuentas.put(cuentaId, cuenta);
-        System.out.println("Cuenta abierta con ID: " + cuentaId);
-    }
-
-    // Método para realizar una transacción
-    private void realizarTransaccion(Scanner scanner) {
-        System.out.println("Ingrese el ID de la cuenta origen:");
-        String cuentaOrigenId = scanner.nextLine();
-
-        System.out.println("Ingrese el ID de la cuenta destino:");
-        String cuentaDestinoId = scanner.nextLine();
-
-        System.out.println("Ingrese el monto a transferir:");
-        double cantidad = scanner.nextDouble();
-        scanner.nextLine(); // Consumir la nueva línea
-
-        Cuenta cuentaOrigen = cuentas.get(cuentaOrigenId);
-        Cuenta cuentaDestino = cuentas.get(cuentaDestinoId);
-
-        if (cuentaOrigen != null && cuentaDestino != null) {
-            Transaccion.transfiera(cuentaOrigen, cuentaDestino, cantidad);
-            System.out.println("Transacción realizada: " + cantidad + " de " + cuentaOrigenId + " a " + cuentaDestinoId);
-        } else {
-            System.out.println("Una o ambas cuentas no existen.");
-        }
-    }
-
-    // Método para consultar el saldo de una cuenta
-    private void consultarSaldo(Scanner scanner) {
-        System.out.println("Ingrese el ID de la cuenta:");
-        String cuentaId = scanner.nextLine();
-        Cuenta cuenta = cuentas.get(cuentaId);
-
-        if (cuenta != null) {
-            System.out.println("Saldo de la cuenta " + cuentaId + ": " + cuenta.getSaldo());
-        } else {
-            System.out.println("Cuenta no encontrada.");
-        }
-    }
-
-    // Mostrar el menú principal
-    public void menu() {
+    // Menú principal del sistema
+    public void menu() throws IOException {
         Scanner scanner = new Scanner(System.in);
 
         while (true) {
@@ -154,7 +144,7 @@ public class Homebanking {
             System.out.println("3. Salir");
             System.out.print("Seleccione una opción: ");
             int opcion = scanner.nextInt();
-            scanner.nextLine(); // Consumir la nueva línea
+            scanner.nextLine();  // Consumir la nueva línea
 
             switch (opcion) {
                 case 1:
@@ -172,6 +162,9 @@ public class Homebanking {
         }
     }
 }
+
+
+
 
 
 

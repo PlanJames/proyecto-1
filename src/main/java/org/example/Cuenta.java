@@ -1,13 +1,12 @@
 package org.example;
 
-import java.io.FileWriter;
 import java.io.IOException;
 
 public class Cuenta {
-    private String numeroCuenta;
-    private double saldo;
+    private String numeroCuenta;  // Identificador único de la cuenta
+    private double saldo;  // Saldo actual de la cuenta
 
-    // Constructor
+    // Constructor de la clase Cuenta
     public Cuenta(String numeroCuenta, double saldoInicial) {
         this.numeroCuenta = numeroCuenta;
         this.saldo = saldoInicial;
@@ -18,29 +17,29 @@ public class Cuenta {
         return numeroCuenta;
     }
 
-    // Obtener el saldo actual de la cuenta
+    // Obtener el saldo de la cuenta
     public double getSaldo() {
         return saldo;
     }
 
-    // Método para depositar dinero en la cuenta
+    // Depositar una cantidad en la cuenta
     public void depositar(double cantidad) {
         saldo += cantidad;
     }
 
-    // Método para retirar dinero de la cuenta
+    // Retirar una cantidad de la cuenta
     public void retirar(double cantidad) {
-        if (saldo >= cantidad) {
-            saldo -= cantidad;
-        } else {
-            System.out.println("Fondos insuficientes.");
-        }
+        saldo -= cantidad;
     }
 
-    // Mostrar información de la cuenta
-    public void mostrarInformacion() {
-        System.out.println("Número de cuenta: " + numeroCuenta);
-        System.out.println("Saldo: " + saldo);
+    // Guardar la información de la cuenta en un archivo
+    public void guardarCuenta(FileHandler fileHandler, String archivo, String idUsuario) throws IOException {
+        String linea = this.numeroCuenta + "," + this.saldo + "," + idUsuario;
+        fileHandler.guardarEnArchivo(archivo, linea);
     }
 }
+
+
+
+
 
