@@ -1,19 +1,22 @@
 package org.example;
 
 import java.io.IOException;
+import java.util.UUID;
 
 public class Cuenta {
-    private String numeroCuenta;  // Identificador único de la cuenta
+    private TipoDeCuenta tipoDeCuenta;
+    private UUID numeroCuenta;  // Identificador único de la cuenta
     private double saldo;  // Saldo actual de la cuenta
 
-    // Constructor de la clase Cuenta
-    public Cuenta(String numeroCuenta, double saldoInicial) {
-        this.numeroCuenta = numeroCuenta;
+    // Constructor
+    public Cuenta(TipoDeCuenta tipoDeCuenta, String numeroCuenta, double saldoInicial) {
+        this.tipoDeCuenta = tipoDeCuenta;
+        this.numeroCuenta = UUID.randomUUID();
         this.saldo = saldoInicial;
     }
 
     // Obtener el número de cuenta
-    public String getNumeroCuenta() {
+    public UUID getNumeroCuenta() {
         return numeroCuenta;
     }
 
@@ -38,8 +41,3 @@ public class Cuenta {
         fileHandler.guardarEnArchivo(archivo, linea);
     }
 }
-
-
-
-
-
