@@ -41,18 +41,12 @@ public class Usuario {
 
     // Guardar la información del usuario en un archivo
     public void guardarUsuario(FileHandler fileHandler, String archivo) {
-        try {
-            // Concatenamos la información del usuario en una línea de texto
-            String linea = this.nombre + "," + this.id + "," + this.direccion + "," + this.telefono + "," + this.email;
+        // Concatenamos la información del usuario en una línea de texto
+        String linea = this.nombre + "," + this.id + "," + this.direccion + "," + this.telefono + "," + this.email;
 
-            // Intentamos guardar la línea en el archivo
-            fileHandler.guardarEnArchivo(archivo, linea);
+        // Guardamos la línea en el archivo
+        fileHandler.guardarEnArchivo(archivo, linea);
 
-            System.out.println("Usuario guardado exitosamente.");
-
-        } catch (IOException e) {
-            // Si ocurre un error, capturamos la excepción y mostramos un mensaje al usuario
-            System.out.println("Error al guardar el usuario: " + e.getMessage());
-        }
+        System.out.println("Usuario guardado exitosamente.");
     }
 }
