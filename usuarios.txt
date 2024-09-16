@@ -1,0 +1,4 @@
+jose lencina,0c8b354e-f672-401c-b469-380ca70fb68e,jose ing 240,3415032010,joselencina@gmail.com,josesito,josesito
+jose lencina,33e31ae8-df01-41de-babc-6e248e0d39bd,jose ing 240,3415032010,joselencina@gmail.com,josesito,josesito
+jose lencina,71239ec1-8b93-4af9-8486-01ac02130c9a,jose ing 240,3415032010,joselencina@gmail.com,josesito,josesito
+jose lencina,ede1f060-0782-4c0a-8f39-8ea16f808d96,jose ing,3415032010,joselencina@gmail.com,jose123,jose123

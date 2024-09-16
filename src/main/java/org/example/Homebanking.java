@@ -15,7 +15,7 @@ public class Homebanking {
 
     // Registrar un nuevo usuario en el sistema
     public void registrarUsuario() {
-        System.out.println("Ingrese el ID del usuario:");
+        System.out.println("Ingrese su DNI :");
         String id = scanner.nextLine();
 
         if (usuarios.containsKey(id)) {
@@ -23,19 +23,28 @@ public class Homebanking {
             return;
         }
 
-        System.out.println("Ingrese el nombre del usuario:");
+        System.out.println("Ingrese su nombre y apellido (como figura en el DNI):");
         String nombre = scanner.nextLine();
 
-        System.out.println("Ingrese la dirección del usuario:");
+        System.out.println("Ingrese su dirección (como figura en el DNI):");
         String direccion = scanner.nextLine();
 
-        System.out.println("Ingrese el teléfono del usuario:");
+        System.out.println("Ingrese su teléfono:");
         String telefono = scanner.nextLine();
 
-        System.out.println("Ingrese el email del usuario:");
+        System.out.println("Ingrese su email:");
         String email = scanner.nextLine();
 
-        Usuario usuario = new Usuario(nombre, direccion, telefono, email);
+        System.out.println("Ingrese su nombre de usuario:");
+        String nombreUsuario = scanner.nextLine();
+
+        System.out.println("Ingrese la contraseña:");
+        String password = scanner.nextLine();
+
+        // Corregido: incluir email en la creación del objeto Usuario
+        Usuario usuario = new Usuario(nombre, direccion, telefono, email, nombreUsuario, password);
+
+        // Corregido: el mapa debería usar el ID que has pedido al inicio (id, no dni)
         usuarios.put(id, usuario);
 
         // Guardar el usuario en el archivo
@@ -46,18 +55,38 @@ public class Homebanking {
 
     // Iniciar sesión para el usuario
     public void iniciarSesion() throws IOException {
-        System.out.println("Ingrese el ID del usuario:");
-        String id = scanner.nextLine();
-        usuarioActual = usuarios.get(id);
+        System.out.println("Ingrese el nombre de usuario:");
+        String nombreUsuario = scanner.nextLine();
 
-        if (usuarioActual == null) {
+        Usuario usuarioEncontrado = null;
+
+        // Buscar el usuario por nombre de usuario
+        for (Usuario usuario : usuarios.values()) {
+            if (usuario.getNombreUsuario().equals(nombreUsuario)) {
+                usuarioEncontrado = usuario;
+                break;
+            }
+        }
+
+        if (usuarioEncontrado == null) {
             System.out.println("Usuario no encontrado.");
             return;
         }
 
+        System.out.println("Ingrese la contraseña:");
+        String password = scanner.nextLine();
+
+        // Validar la contraseña
+        if (!usuarioEncontrado.validarPassword(password)) {
+            System.out.println("Contraseña incorrecta.");
+            return;
+        }
+
+        usuarioActual = usuarioEncontrado;
         System.out.println("Sesión iniciada para: " + usuarioActual.getNombre());
         mostrarMenuCuenta();
     }
+
 
     // Menú principal del sistema
     public void menu() throws IOException {
@@ -106,14 +135,24 @@ public class Homebanking {
 
     // Abrir una nueva cuenta para el usuario actual
     private void abrirCuenta() throws IOException {
-        System.out.println("1. "+TipoDeCuenta.CUENTA_CORRIENTE);
-        System.out.println("2."+TipoDeCuenta.CAJA_DE_AHORRO);
-        System.out.println("3."+TipoDeCuenta.PLAZO_FIJO);
+        if (usuarioActual == null) {
+            System.out.println("Debe iniciar sesión antes de abrir una cuenta.");
+            return;
+        }
+
+        System.out.println("1. " + TipoDeCuenta.CUENTA_CORRIENTE);
+        System.out.println("2. " + TipoDeCuenta.CAJA_DE_AHORRO);
+        System.out.println("3. " + TipoDeCuenta.PLAZO_FIJO);
         System.out.println("Ingrese tipo cuenta:");
         int tipoDeCuentaOpcion = Integer.parseInt(scanner.nextLine());
         TipoDeCuenta tipoDeCuenta = elegirTipoDeCuenta(tipoDeCuentaOpcion);
 
-        System.out.println("Ingrese el ID de la cuenta:");
+        if (tipoDeCuenta == null) {
+            System.out.println("Tipo de cuenta inválido.");
+            return;
+        }
+
+        System.out.println("Ingrese el DNI de la cuenta:");
         String cuentaId = scanner.nextLine();
 
         if (cuentas.containsKey(cuentaId)) {
@@ -122,25 +161,31 @@ public class Homebanking {
         }
 
         System.out.println("Ingrese el saldo inicial de la cuenta:");
-        double saldoInicial = scanner.nextDouble();
-        scanner.nextLine();  // Consumir la nueva línea
+        double saldoInicial;
+        try {
+            saldoInicial = Double.parseDouble(scanner.nextLine());
+        } catch (NumberFormatException e) {
+            System.out.println("Monto inválido. Intente nuevamente.");
+            return;
+        }
 
         Cuenta cuenta = new Cuenta(tipoDeCuenta, cuentaId, saldoInicial);
         usuarioActual.agregarCuenta(cuenta);
         cuentas.put(cuentaId, cuenta);
 
         // Guardar la cuenta en el archivo
-        cuenta.guardarCuenta(fileHandler, "cuentas.txt", String.valueOf(usuarioActual.getId()));
+        cuenta.guardarCuenta(fileHandler, "cuentas.txt", String.valueOf(usuarioActual.getDni()));
 
-        System.out.println("Cuenta abierta con ID: " + cuentaId);
+        System.out.println("Cuenta abierta con DNI: " + cuentaId);
     }
+
 
     // Realizar una transacción entre dos cuentas
     private void realizarTransaccion() throws IOException {
-        System.out.println("Ingrese el ID de la cuenta origen:");
+        System.out.println("Ingrese el DNI de la cuenta origen:");
         String cuentaOrigenId = scanner.nextLine();
 
-        System.out.println("Ingrese el ID de la cuenta destino:");
+        System.out.println("Ingrese el DNI de la cuenta destino:");
         String cuentaDestinoId = scanner.nextLine();
 
         System.out.println("Ingrese el monto a transferir:");
@@ -169,7 +214,7 @@ public class Homebanking {
             System.out.println("\nOpciones:");
             System.out.println("1. Abrir cuenta");
             System.out.println("2. Realizar transacción");
-            System.out.println("3. Hace creder tu dinero");
+            System.out.println("3. Hace crecer tu dinero");
             System.out.println("4. Cerrar sesión");
             System.out.print("Seleccione una opción: ");
             int opcion = scanner.nextInt();
