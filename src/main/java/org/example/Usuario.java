@@ -1,37 +1,35 @@
 package org.example;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class Usuario {
     private String nombre;
-    private String id;  // Identificador único del usuario
+    private UUID id;  // Identificador único del usuario
     private String direccion;
     private String telefono;  // Teléfono del usuario
     private String email;
-    private List<Cuenta> cuentas;  // Lista de cuentas asociadas al usuario
+    private List<Cuenta> cuentas = new ArrayList<>();  // Lista de cuentas asociadas al usuario
 
-    // Constructor de la clase Usuario
-    public Usuario(String nombre, String id, String direccion, String telefono, String email, List<Cuenta> cuentas) {
+    // Constructor
+    public Usuario(String nombre, String direccion, String telefono, String email) {
         this.nombre = nombre;
-        this.id = id;
+        this.id = UUID.randomUUID();
         this.direccion = direccion;
         this.telefono = telefono;
         this.email = email;
-        this.cuentas = cuentas;
     }
 
-    // Obtener el nombre del usuario
     public String getNombre() {
         return nombre;
     }
 
-    // Obtener el ID del usuario
-    public String getId() {
+    public UUID getId() {
         return id;
     }
 
-    // Obtener la lista de cuentas del usuario
     public List<Cuenta> getCuentas() {
         return cuentas;
     }
@@ -42,13 +40,13 @@ public class Usuario {
     }
 
     // Guardar la información del usuario en un archivo
-    public void guardarUsuario(FileHandler fileHandler, String archivo) throws IOException {
+    public void guardarUsuario(FileHandler fileHandler, String archivo) {
+        // Concatenamos la información del usuario en una línea de texto
         String linea = this.nombre + "," + this.id + "," + this.direccion + "," + this.telefono + "," + this.email;
+
+        // Guardamos la línea en el archivo
         fileHandler.guardarEnArchivo(archivo, linea);
+
+        System.out.println("Usuario guardado exitosamente.");
     }
 }
-
-
-
-
-
