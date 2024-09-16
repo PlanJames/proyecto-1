@@ -11,7 +11,7 @@ public class UsuarioTest {
 
     @Test
     public void agregarCuentaTest() {
-        Usuario usuario = new Usuario("Juan", "callefalsa 123", "1234125", "asda@asda.com");
+        Usuario usuario = new Usuario("Juan", "callefalsa 123", "1234125", "asda@asda.com", "juanusuario", "password123");
         List<Cuenta> cuentas = new ArrayList<>();
         cuentas.addAll(usuario.getCuentas());
         usuario.agregarCuenta(new Cuenta(TipoDeCuenta.CUENTA_CORRIENTE, "123", 0.0));
