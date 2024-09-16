@@ -2,11 +2,10 @@ package org.example;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 public class Usuario {
     private String nombre;
-    private UUID dni;  // Identificador único del usuario
+    private int dni;  // Identificador único del usuario
     private String direccion;
     private String telefono;  // Teléfono del usuario
     private String email;
@@ -15,9 +14,9 @@ public class Usuario {
     private List<Cuenta> cuentas = new ArrayList<>();  // Lista de cuentas asociadas al usuario
 
     // Constructor
-    public Usuario(String nombre, String direccion, String telefono, String email, String nombreUsuario, String password) {
+    public Usuario(String nombre, int dni, String direccion, String telefono, String email, String nombreUsuario, String password) {
         this.nombre = nombre;
-        this.dni = UUID.randomUUID();
+        this.dni = dni;
         this.direccion = direccion;
         this.telefono = telefono;
         this.email = email;
@@ -29,7 +28,7 @@ public class Usuario {
         return nombre;
     }
 
-    public UUID getDni() {
+    public int getDni() {
         return dni;
     }
 
