@@ -206,7 +206,7 @@ public class Homebanking {
         }
     }
     // Método para mostrar el menú de inversiones
-    private void Inversión() {
+    private void Inversion() {
         Inversion inversion = new Inversion(scanner, usuarioActual);
         inversion.mostrarMenu();
     }
@@ -250,7 +250,7 @@ public class Homebanking {
                     realizarTransaccion();
                     break;
                 case 3:
-                    Inversión();
+                    Inversion();
                     break;
                 case 4:
                     mostrarSaldo();
