@@ -157,6 +157,11 @@ public class Homebanking {
             System.out.println("Una o ambas cuentas no existen.");
         }
     }
+    // Método para mostrar el menú de inversiones
+    private void Inversión() {
+        Inversion inversion = new Inversion(scanner, usuarioActual);
+        inversion.mostrarMenu();
+    }
 
     // Mostrar el menú de opciones para el usuario actual
     private void mostrarMenuCuenta() throws IOException {
@@ -164,7 +169,8 @@ public class Homebanking {
             System.out.println("\nOpciones:");
             System.out.println("1. Abrir cuenta");
             System.out.println("2. Realizar transacción");
-            System.out.println("3. Cerrar sesión");
+            System.out.println("3. Hace creder tu dinero");
+            System.out.println("4. Cerrar sesión");
             System.out.print("Seleccione una opción: ");
             int opcion = scanner.nextInt();
             scanner.nextLine();  // Consumir la nueva línea
@@ -177,6 +183,9 @@ public class Homebanking {
                     realizarTransaccion();
                     break;
                 case 3:
+                    Inversión();
+                    break;
+                case 4:
                     usuarioActual = null;
                     System.out.println("Sesión cerrada.");
                     return;
