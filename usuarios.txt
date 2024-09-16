@@ -3,3 +3,6 @@ jose lencina,33e31ae8-df01-41de-babc-6e248e0d39bd,jose ing 240,3415032010,josele
 jose lencina,71239ec1-8b93-4af9-8486-01ac02130c9a,jose ing 240,3415032010,joselencina@gmail.com,josesito,josesito
 jose lencina,ede1f060-0782-4c0a-8f39-8ea16f808d96,jose ing,3415032010,joselencina@gmail.com,jose123,jose123
 jose lencina,30d5106d-1fe4-4382-8035-ed37d6af20e2,jose ing 240,3415032010,joselencina@gmail.com,josesito,josesito
+jose lencina,ba52678c-5c61-4ba6-8274-65d49a57b379,jose ing 240,34534,joselencina@gmail.com,josesesito,josesito
+jose lencina,883a1974-9ba2-4a10-b7f0-6544ec930daa,jose,3451,joselencina@gmail.com,josesito,josesito
+jose lencina,47104765,jose,341,joselencina@gmail.com,josesito,josesito

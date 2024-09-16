@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.*;
 
 public class Homebanking {
-    private Map<String, Usuario> usuarios = new HashMap<>();  // Mapa para almacenar usuarios por ID
+    private Map<Integer, Usuario> usuarios = new HashMap<>();  // Mapa para almacenar usuarios por ID
     private Map<String, Cuenta> cuentas = new HashMap<>();  // Mapa para almacenar cuentas por ID
     private Usuario usuarioActual;  // Usuario actualmente autenticado
     private FileHandler fileHandler = new FileHandler();  // Instancia de FileHandler para manejar archivos
@@ -16,9 +16,9 @@ public class Homebanking {
     // Registrar un nuevo usuario en el sistema
     public void registrarUsuario() {
         System.out.println("Ingrese su DNI :");
-        String id = scanner.nextLine();
+        int dni = Integer.parseInt(scanner.nextLine());
 
-        if (usuarios.containsKey(id)) {
+        if (usuarios.containsKey(dni)) {
             System.out.println("El usuario ya existe.");
             return;
         }
@@ -42,10 +42,12 @@ public class Homebanking {
         String password = scanner.nextLine();
 
         // Corregido: incluir email en la creación del objeto Usuario
-        Usuario usuario = new Usuario(nombre, direccion, telefono, email, nombreUsuario, password);
+        Usuario usuario = new Usuario(nombre, dni,
 
-        // Corregido: el mapa debería usar el ID que has pedido al inicio (id, no dni)
-        usuarios.put(id, usuario);
+                direccion, telefono, email, nombreUsuario, password);
+
+        // Corregido: el mapa debería usar el DNI que has pedido al inicio
+        usuarios.put(dni, usuario);
 
         // Guardar el usuario en el archivo
         usuario.guardarUsuario(fileHandler, "usuarios.txt");
@@ -90,6 +92,7 @@ public class Homebanking {
 
     // Menú principal del sistema
     public void menu() throws IOException {
+
         try {
             while (true) {
                 System.out.println("\nMenú Principal:");
@@ -134,7 +137,7 @@ public class Homebanking {
     }
 
     // Abrir una nueva cuenta para el usuario actual
-    private void abrirCuenta() throws IOException {
+    private void abrirCuenta() {
         if (usuarioActual == null) {
             System.out.println("Debe iniciar sesión antes de abrir una cuenta.");
             return;
@@ -181,7 +184,7 @@ public class Homebanking {
 
 
     // Realizar una transacción entre dos cuentas
-    private void realizarTransaccion() throws IOException {
+    private void realizarTransaccion() {
         System.out.println("Ingrese el DNI de la cuenta origen:");
         String cuentaOrigenId = scanner.nextLine();
 
@@ -227,7 +230,7 @@ public class Homebanking {
     }
 
     // Mostrar el menú de opciones para el usuario actual
-    private void mostrarMenuCuenta() throws IOException {
+    private void mostrarMenuCuenta() {
         while (true) {
             System.out.println("\nOpciones:");
             System.out.println("1. Abrir cuenta");
