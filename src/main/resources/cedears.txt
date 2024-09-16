@@ -1,0 +1,18 @@
+SPY,S&P 500,5595.76
+QQQ,invesco qqq trust,29700.00
+IWM,ishares trust russell 2000,26550.00
+F,ford motor company,13375.00
+RBLX,roblox corp.,28525.00
+UAL,united airlines holdings inc.,12400.00
+SATL,satellogic inc.,1300.00
+MU,micron technology inc,21900.00
+UBER,uber technologies inc.,45850.00
+ABNB,airbnb inc,9830.00
+MELI,mercado libre,2140,00
+YPFD,ypf,29025.00
+AAPL,apple,13925.00
+GOOGL,google,3355.00
+MSFT,microsoft,17850.00
+AMZN,amazon,1620.00
+TSLA,tesla,19200.00
+META,meta,27525.00
