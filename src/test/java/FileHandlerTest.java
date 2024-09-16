@@ -1,47 +1,44 @@
-package org.example;
-
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.example.FileHandler;
+import org.testng.Assert;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Test;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
 
 public class FileHandlerTest {
+    FileHandler fileHandler;
+    File testFile;
 
-    private FileHandler fileHandler;
-    private File testFile;
-
-    @BeforeEach
+    @BeforeTest
     public void setUp() {
         fileHandler = new FileHandler();
         testFile = new File("testfile.txt");
     }
 
-    @AfterEach
-    public void tearDown() {
-        if (testFile.exists()) {
-            testFile.delete();
-        }
+    @AfterTest
+    public void tearDown() {;
+        if (testFile.exists()) testFile.delete();
     }
 
     @Test
-    public void testGuardarEnArchivo() throws IOException {
+    public void guardarEnArchivoTest() {
         String linea = "Esta es una línea de prueba.";
         fileHandler.guardarEnArchivo(testFile.getPath(), linea);
 
         // Verifica si el archivo contiene la línea que se guardó
         List<String> lineas = fileHandler.cargarDesdeArchivo(testFile.getPath());
         assertEquals(1, lineas.size());
-        assertEquals(linea, lineas.get(0));
+        assertEquals(linea, lineas.getFirst());
     }
 
     @Test
-    public void testCargarDesdeArchivo() throws IOException {
+    public void testCargarDesdeArchivo() {
         String linea1 = "Primera línea.";
         String linea2 = "Segunda línea.";
         fileHandler.guardarEnArchivo(testFile.getPath(), linea1);
@@ -55,10 +52,9 @@ public class FileHandlerTest {
     }
 
     @Test
-    public void testCargarDesdeArchivoArchivoVacío() throws IOException {
+    public void testCargarDesdeArchivoArchivoVacio() {
         // Verifica que el archivo vacío devuelve una lista vacía
         List<String> lineas = fileHandler.cargarDesdeArchivo(testFile.getPath());
-        assertTrue(lineas.isEmpty());
+        assert(lineas.isEmpty());
     }
 }
-

@@ -8,11 +8,7 @@ public class Deposito extends MLTransaccion {
 
     // Constructor
     public Deposito(double monto, Date fecha) {
-        try {
-            wait();
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
+        super(monto, fecha);
     }
 
     @Override
