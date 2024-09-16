@@ -207,6 +207,24 @@ public class Homebanking {
         Inversion inversion = new Inversion(scanner, usuarioActual);
         inversion.mostrarMenu();
     }
+    // Mostrar el saldo de las cuentas del usuario actual
+    private void mostrarSaldo() {
+        if (usuarioActual == null) {
+            System.out.println("Debe iniciar sesión para ver el saldo.");
+            return;
+        }
+
+        List<Cuenta> cuentasUsuario = usuarioActual.getCuentas();
+
+        if (cuentasUsuario.isEmpty()) {
+            System.out.println("No tiene cuentas registradas.");
+        } else {
+            System.out.println("Saldos de sus cuentas:");
+            for (Cuenta cuenta : cuentasUsuario) {
+                System.out.println("Cuenta: " + cuenta.getNumeroCuenta() + " | Saldo: $" + cuenta.getSaldo());
+            }
+        }
+    }
 
     // Mostrar el menú de opciones para el usuario actual
     private void mostrarMenuCuenta() throws IOException {
@@ -215,7 +233,8 @@ public class Homebanking {
             System.out.println("1. Abrir cuenta");
             System.out.println("2. Realizar transacción");
             System.out.println("3. Hace crecer tu dinero");
-            System.out.println("4. Cerrar sesión");
+            System.out.println("4. Saldo en cuenta");
+            System.out.println("5. Cerrar sesión");
             System.out.print("Seleccione una opción: ");
             int opcion = scanner.nextInt();
             scanner.nextLine();  // Consumir la nueva línea
@@ -231,6 +250,9 @@ public class Homebanking {
                     Inversión();
                     break;
                 case 4:
+                    mostrarSaldo();
+                    break;
+                case 5:
                     usuarioActual = null;
                     System.out.println("Sesión cerrada.");
                     return;
