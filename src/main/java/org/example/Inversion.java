@@ -18,6 +18,7 @@ public class Inversion {
         System.out.println("Elija el tipo de inversión:");
         System.out.println("1. Fondo Común de Inversión");
         System.out.println("2. CEDEAR");
+        System.out.println("3. Criptomonedas");
 
         int opcion = scanner.nextInt();
         scanner.nextLine();  // Consumir la nueva línea
@@ -28,6 +29,9 @@ public class Inversion {
                 break;
             case 2:
                 invertirEnCedear();
+                break;
+            case 3:
+                invertirEnCriptomoneda();  // Nueva función para criptomonedas
                 break;
             default:
                 System.out.println("Opción no válida. Por favor, elija una opción correcta.");
@@ -157,4 +161,72 @@ public class Inversion {
         }
         return false;  // No tiene suficiente saldo en ninguna cuenta
     }
+    private static final double TASA_USD_ARS = 1250.0;  // Tasa de cambio fija para convertir USD a ARS
+
+    private void invertirEnCriptomoneda() {
+        System.out.println("Ha elegido invertir en Criptomonedas.");
+        System.out.println("Ingrese el símbolo o nombre de la criptomoneda en la que desea invertir:");
+        String entrada = scanner.nextLine();
+
+        // Buscar la criptomoneda en el archivo o fuente de datos
+        Criptomoneda criptomoneda = buscarCriptomoneda(entrada);
+
+        if (criptomoneda != null) {
+            // Obtener el valor de la criptomoneda en USD
+            double valorEnUSD = criptomoneda.getValorActual();
+
+            System.out.println("Criptomoneda encontrada: " + criptomoneda.getNombre() + " (" + criptomoneda.getSimbolo() + ")");
+            System.out.println("Valor actual en dólares estadounidenses (USD): $" + valorEnUSD);
+            System.out.println("Ingrese el monto a invertir en pesos argentinos (ARS):");
+
+            double montoEnPesos = scanner.nextDouble();
+            scanner.nextLine();  // Consumir la nueva línea
+
+            // Convertir el monto de ARS a USD
+            double montoEnUSD = montoEnPesos / TASA_USD_ARS;
+
+            // Verificar si el usuario tiene saldo suficiente en pesos argentinos
+            if (tieneSaldoSuficiente(usuarioActual, montoEnPesos)) {
+                // Calcular cuántas criptomonedas puede comprar con el monto en USD
+                double cantidadCriptomonedas = montoEnUSD / valorEnUSD;
+
+                System.out.println("Inversión realizada: Ha comprado " + String.format("%.8f", cantidadCriptomonedas) + " " + criptomoneda.getSimbolo() + " por un total de $" + montoEnPesos + " ARS.");
+                System.out.println("Monto equivalente en dólares: $" + String.format("%.2f", montoEnUSD) + " USD.");
+                // Aquí puedes registrar la inversión (en pesos y criptomonedas) en un archivo o base de datos
+            } else {
+                System.out.println("Saldo insuficiente para realizar esta inversión.");
+            }
+        } else {
+            System.out.println("La criptomoneda ingresada no está disponible.");
+        }
+    }
+
+
+    private Criptomoneda buscarCriptomoneda(String entrada) {
+        InputStream inputStream = getClass().getClassLoader().getResourceAsStream("criptomonedas.txt");
+        if (inputStream == null) {
+            System.out.println("No se encontró el archivo de criptomonedas.");
+            return null;
+        }
+
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(inputStream))) {
+            String linea;
+            while ((linea = br.readLine()) != null) {
+                String[] partes = linea.split(",");
+                String simbolo = partes[0].trim();
+                String nombre = partes[1].trim();
+                double valorActual = Double.parseDouble(partes[2].trim());
+
+                // Verificar si el símbolo o el nombre coinciden con la entrada del usuario
+                if (entrada.equalsIgnoreCase(simbolo) || entrada.equalsIgnoreCase(nombre)) {
+                    return new Criptomoneda(nombre, simbolo, valorActual);  // Devolver la criptomoneda encontrada
+                }
+            }
+        } catch (IOException e) {
+            System.out.println("Error al leer el archivo de criptomonedas.");
+        }
+        return null;
+    }
+
+
 }
