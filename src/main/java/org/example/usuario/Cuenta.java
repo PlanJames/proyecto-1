@@ -29,6 +29,11 @@ public class Cuenta {
         return saldo;
     }
 
+    // Método para establecer un nuevo saldo
+    public void setSaldo(double nuevoSaldo) {
+        this.saldo = nuevoSaldo;
+    }
+    
     // Depositar una cantidad en la cuenta
     public void depositar(double cantidad) {
         saldo += cantidad;

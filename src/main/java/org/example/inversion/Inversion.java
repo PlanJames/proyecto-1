@@ -51,6 +51,9 @@ public class Inversion {
         if (tieneSaldoSuficiente(usuarioActual, monto)) {
             System.out.println("Monto disponible, continúe.");
 
+            // Resta el monto del saldo
+            restarSaldo(usuarioActual, monto);
+
             // Pedir la fecha de retiro
             System.out.println("Ingrese la fecha de retiro (formato dd/MM/yyyy):");
             String fechaRetiroStr = scanner.nextLine();
@@ -61,16 +64,12 @@ public class Inversion {
             try {
                 // Parsear la fecha de retiro
                 fechaRetiro = formatoFecha.parse(fechaRetiroStr);
-
-                // Mostrar la fecha en el formato correcto (dd/MM/yyyy)
                 String fechaFormateada = formatoFecha.format(fechaRetiro);
                 System.out.println("Fecha de retiro ingresada: " + fechaFormateada);
 
                 // Generar un rendimiento aleatorio
                 Random random = new Random();
                 double rendimiento = 15 + (25 * random.nextDouble());  // Genera un valor entre 15 y 40
-
-                // Calcular el beneficio estimado
                 double beneficioEstimado = monto * (rendimiento / 100);
 
                 // Mostrar el rendimiento estimado
@@ -85,6 +84,7 @@ public class Inversion {
             System.out.println("Saldo insuficiente para realizar esta inversión.");
         }
     }
+
 
     private void invertirEnCedear() {
         System.out.println("Ha elegido invertir en CEDEAR.");
@@ -106,16 +106,14 @@ public class Inversion {
             int cantidadAcciones = scanner.nextInt();
             scanner.nextLine();  // Consumir la nueva línea
 
-            // Calcular el monto total necesario
             double montoCedear = cantidadAcciones * valorPorAccion;
 
             // Verificar si el usuario tiene saldo suficiente
             if (tieneSaldoSuficiente(usuarioActual, montoCedear)) {
-                // Si la cantidad de acciones es al menos 1
                 if (cantidadAcciones >= 1) {
+                    // Resta el monto del saldo
+                    restarSaldo(usuarioActual, montoCedear);
                     System.out.println("Inversión realizada: Ha comprado " + cantidadAcciones + " acciones de " + nombre + " por un total de $" + montoCedear);
-
-                    // Aquí no se actualiza el saldo
                 } else {
                     System.out.println("La cantidad de acciones debe ser al menos 1.");
                 }
@@ -126,6 +124,7 @@ public class Inversion {
             System.out.println("La empresa ingresada no está disponible para comprar.");
         }
     }
+
 
     // Método para buscar una empresa en el archivo de CEDEARs y devolver los datos si la encuentra
     private String[] buscarEmpresaCedear(String entrada) {
@@ -164,6 +163,17 @@ public class Inversion {
         }
         return false;  // No tiene suficiente saldo en ninguna cuenta
     }
+
+    private void restarSaldo(Usuario usuario, double monto) {
+        for (Cuenta cuenta : usuario.getCuentas()) {
+            if (cuenta.getSaldo() >= monto) {
+                cuenta.setSaldo(cuenta.getSaldo() - monto);
+                System.out.println("Se ha restado $" + monto + " del saldo de la cuenta.");
+                break;  // Salimos del bucle después de restar
+            }
+        }
+    }
+
     private static final double TASA_USD_ARS = 1250.0;  // Tasa de cambio fija para convertir USD a ARS
 
     private void mostrarMenuCriptomonedas() {
@@ -277,6 +287,5 @@ public class Inversion {
         }
         return null;
     }
-
-
 }
+
