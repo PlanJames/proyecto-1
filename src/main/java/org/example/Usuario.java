@@ -54,14 +54,22 @@ public class Usuario {
         return this.password.equals(password);
     }
 
-    // Guardar la información del usuario en un archivo
+    // Guardar la información del usuario en un archivo solo si no está cargado
     public void guardarUsuario(FileHandler fileHandler, String archivo) {
-        // Concatenamos la información del usuario en una línea de texto
-        String linea = this.nombre + "," + this.dni + "," + this.direccion + "," + this.telefono + "," + this.email + "," + this.password + "," + this.nombreUsuario;
+        // Verificar si el usuario ya está en el archivo
+        List<String> usuariosExistentes = fileHandler.cargarDesdeArchivo(archivo);
+        boolean usuarioExiste = usuariosExistentes.stream()
+                .anyMatch(linea -> Integer.parseInt(linea.split(",")[1]) == this.dni);
 
-        // Guardamos la línea en el archivo
-        fileHandler.guardarEnArchivo(archivo, linea);
+        if (usuarioExiste) {
+            System.out.println("El usuario ya está registrado.");
+        } else {
+            // Concatenamos la información del usuario en una línea de texto
+            String linea = this.nombre + "," + this.dni + "," + this.direccion + "," + this.telefono + "," + this.email + "," + this.nombreUsuario + "," + this.password;
 
-        System.out.println("Usuario guardado exitosamente.");
+            // Guardamos la línea en el archivo
+            fileHandler.guardarEnArchivo(archivo, linea);
+            System.out.println("Usuario guardado exitosamente.");
+        }
     }
 }
