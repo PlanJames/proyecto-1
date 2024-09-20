@@ -203,28 +203,103 @@ public class Homebanking {
 
     // Realizar una transacción entre dos cuentas
     private void realizarTransaccion() {
-        System.out.println("Ingrese el ID de la cuenta origen (UUID):");
-        String cuentaOrigenId = scanner.nextLine();
+        // Comprobar que el usuario esté logueado
+        if (usuarioActual == null) {
+            System.out.println("No hay un usuario logueado. Inicie sesión primero.");
+            return;
+        }
 
+        // Mostrar opciones para elegir el tipo de cuenta de origen
+        System.out.println("Seleccione el tipo de cuenta desde la cual quiere realizar la transacción:");
+        System.out.println("1. " + TipoDeCuenta.CUENTA_CORRIENTE);
+        System.out.println("2. " + TipoDeCuenta.CAJA_DE_AHORRO);
+        System.out.println("Ingrese el número correspondiente al tipo de cuenta:");
+
+        // Leer la opción del usuario
+        int tipoSeleccionado = scanner.nextInt();
+        scanner.nextLine(); // Consumir la nueva línea
+
+        // Obtener las cuentas del usuario actual
+        List<Cuenta> cuentasUsuario = usuarioActual.getCuentas();
+        Cuenta cuentaOrigen = null;
+
+        switch (tipoSeleccionado) {
+            case 1:
+                // Buscar cuenta de tipo Cuenta Corriente
+                for (Cuenta cuenta : cuentasUsuario) {
+                    if (cuenta.getTipoDeCuenta() == TipoDeCuenta.CUENTA_CORRIENTE) {
+                        cuentaOrigen = cuenta;
+                        break;
+                    }
+                }
+                break;
+            case 2:
+                // Buscar cuenta de tipo Caja de Ahorro
+                for (Cuenta cuenta : cuentasUsuario) {
+                    if (cuenta.getTipoDeCuenta() == TipoDeCuenta.CAJA_DE_AHORRO) {
+                        cuentaOrigen = cuenta;
+                        break;
+                    }
+                }
+                break;
+            default:
+                System.out.println("Opción no válida.");
+                return;
+        }
+
+        // Validar si se encontró la cuenta origen
+        if (cuentaOrigen == null) {
+            System.out.println("No tiene cuentas disponibles del tipo seleccionado.");
+            return;
+        }
+
+        // Ingresar el ID de la cuenta destino
         System.out.println("Ingrese el ID de la cuenta destino (UUID):");
+        System.out.println("UUIDs disponibles: " + cuentas.keySet());
         String cuentaDestinoId = scanner.nextLine();
 
+        // Buscar la cuenta destino por UUID
+        Cuenta cuentaDestino = cuentas.get(cuentaDestinoId);
+
+        // Validar existencia de la cuenta destino
+        if (cuentaDestino == null) {
+            System.out.println("La cuenta destino no existe.");
+            return;
+        }
+
+        // Solicitar el monto de la transacción
         System.out.println("Ingrese el monto a transferir:");
         double cantidad = scanner.nextDouble();
         scanner.nextLine();  // Consumir la nueva línea
 
-        // Buscar las cuentas por UUID en lugar de por DNI
-        Cuenta cuentaOrigen = cuentas.get(cuentaOrigenId);
-        Cuenta cuentaDestino = cuentas.get(cuentaDestinoId);
+        // Validar que el monto sea mayor a cero
+        if (cantidad <= 0) {
+            System.out.println("El monto debe ser mayor a cero.");
+            return;
+        }
 
-        if (cuentaOrigen != null && cuentaDestino != null) {
+        // Validar que la cuenta origen tenga suficiente saldo
+        if (cuentaOrigen.getSaldo() < cantidad) {
+            System.out.println("Fondos insuficientes en la cuenta de origen.");
+            return;
+        }
+
+        // Confirmar la transacción
+        System.out.println("¿Confirma la transferencia de " + cantidad + " a la cuenta destino " + cuentaDestinoId + "? (s/n)");
+        String confirmacion = scanner.nextLine();
+        if (!confirmacion.equalsIgnoreCase("s")) {
+            System.out.println("Transacción cancelada.");
+            return;
+        }
+
+        // Realizar la transacción
+        try {
             Transaccion.transfiera(cuentaOrigen, cuentaDestino, cantidad, fileHandler, "transacciones.txt");
-            System.out.println("Transacción realizada: " + cantidad + " de " + cuentaOrigenId + " a " + cuentaDestinoId);
-        } else {
-            System.out.println("Una o ambas cuentas no existen.");
+            System.out.println("Transacción realizada: " + cantidad + " de " + cuentaOrigen.getNumeroCuenta() + " a " + cuentaDestinoId);
+        } catch (Exception e) {
+            System.out.println("Error al realizar la transacción: " + e.getMessage());
         }
     }
-
 
     // Mostrar el menú de inversiones
     private void Inversion() {

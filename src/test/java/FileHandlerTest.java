@@ -4,7 +4,6 @@ import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.List;
 
 import static org.testng.Assert.assertEquals;
@@ -36,5 +35,9 @@ public class FileHandlerTest {
         List<String> lineas = fileHandler.cargarDesdeArchivo(testFile.getPath());
         assertEquals(1, lineas.size(), "El número de líneas en el archivo no es el esperado.");
         assertEquals(linea, lineas.get(0), "La línea leída no coincide con la línea esperada.");
+    }
+
+    public static class CuentaTest {
+
     }
 }
