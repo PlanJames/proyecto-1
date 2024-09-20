@@ -54,41 +54,46 @@ public class Homebanking {
     }
 
     // Iniciar sesión para el usuario
-    public void iniciarSesion() throws IOException {
-        System.out.println("Ingrese el nombre de usuario:");
-        String nombreUsuario = scanner.nextLine();
+    public void iniciarSesion() {
+        try {
+            System.out.println("Ingrese el nombre de usuario:");
+            String nombreUsuario = scanner.nextLine();
 
-        Usuario usuarioEncontrado = null;
+            Usuario usuarioEncontrado = null;
 
-        // Buscar el usuario por nombre de usuario
-        for (Usuario usuario : usuarios.values()) {
-            if (usuario.getNombreUsuario().equals(nombreUsuario)) {
-                usuarioEncontrado = usuario;
-                break;
+            // Buscar el usuario por nombre de usuario
+            for (Usuario usuario : usuarios.values()) {
+                if (usuario.getNombreUsuario().equals(nombreUsuario)) {
+                    usuarioEncontrado = usuario;
+                    break;
+                }
             }
+
+            if (usuarioEncontrado == null) {
+                System.out.println("Usuario no encontrado.");
+                return;
+            }
+
+            System.out.println("Ingrese la contraseña:");
+            String password = scanner.nextLine();
+
+            // Validar la contraseña
+            if (!usuarioEncontrado.validarPassword(password)) {
+                System.out.println("Contraseña incorrecta.");
+                return;
+            }
+
+            usuarioActual = usuarioEncontrado;
+            System.out.println("Sesión iniciada para: " + usuarioActual.getNombre());
+            mostrarMenuCuenta();
+        } catch (Exception e) {
+            System.out.println("Ha ocurrido un error: " + e.getMessage());
+            e.printStackTrace(); // Opcional: Para depuración
         }
-
-        if (usuarioEncontrado == null) {
-            System.out.println("Usuario no encontrado.");
-            return;
-        }
-
-        System.out.println("Ingrese la contraseña:");
-        String password = scanner.nextLine();
-
-        // Validar la contraseña
-        if (!usuarioEncontrado.validarPassword(password)) {
-            System.out.println("Contraseña incorrecta.");
-            return;
-        }
-
-        usuarioActual = usuarioEncontrado;
-        System.out.println("Sesión iniciada para: " + usuarioActual.getNombre());
-        mostrarMenuCuenta();
     }
 
     // Menú principal del sistema
-    public void menu() throws IOException {
+    public void menu() {
         try {
             while (true) {
                 System.out.println("\nMenú Principal:");
@@ -113,6 +118,12 @@ public class Homebanking {
                         System.out.println("Opción inválida. Intente de nuevo.");
                 }
             }
+        } catch (InputMismatchException e) {
+            System.out.println("Entrada inválida. Por favor, ingrese un número.");
+            scanner.nextLine(); // Limpiar el buffer del scanner
+        } catch (Exception e) {
+        System.out.println("Error en el sistema: " + e.getMessage());
+        e.printStackTrace(); // Para depuración
         } finally {
             scanner.close(); // Cerrar el scanner al finalizar
         }
