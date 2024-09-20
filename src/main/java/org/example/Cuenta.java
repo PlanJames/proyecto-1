@@ -1,6 +1,5 @@
 package org.example;
 
-import java.io.IOException;
 import java.util.UUID;
 
 public class Cuenta {
@@ -35,12 +34,12 @@ public class Cuenta {
         saldo -= cantidad;
     }
 
-    // Guardar la información de la cuenta en un archivo
+    // Guardar la información de la cuenta en un archivo si no existe
     public void guardarCuenta(FileHandler fileHandler, String archivo, String idUsuario) {
-        // Concatenamos la información de la cuenta en una línea de texto
+        // Concatenar la información de la cuenta en una línea de texto
         String linea = this.numeroCuenta + "," + this.saldo + "," + idUsuario;
 
-        // Guardamos la línea en el archivo
+        // Guardar la línea en el archivo
         fileHandler.guardarEnArchivo(archivo, linea);
 
         System.out.println("Cuenta guardada exitosamente.");

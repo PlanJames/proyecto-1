@@ -21,5 +21,3 @@ public class Deposito extends MLTransaccion {
                 '}';
     }
 }
-
-

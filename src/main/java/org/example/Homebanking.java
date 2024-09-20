@@ -41,12 +41,10 @@ public class Homebanking {
         System.out.println("Ingrese la contraseña:");
         String password = scanner.nextLine();
 
-        // Corregido: incluir email en la creación del objeto Usuario
-        Usuario usuario = new Usuario(nombre, dni,
+        // Creación del objeto Usuario
+        Usuario usuario = new Usuario(nombre, dni, direccion, telefono, email, nombreUsuario, password);
 
-                direccion, telefono, email, nombreUsuario, password);
-
-        // Corregido: el mapa debería usar el DNI que has pedido al inicio
+        // El mapa usa el DNI
         usuarios.put(dni, usuario);
 
         // Guardar el usuario en el archivo
@@ -89,10 +87,8 @@ public class Homebanking {
         mostrarMenuCuenta();
     }
 
-
     // Menú principal del sistema
     public void menu() throws IOException {
-
         try {
             while (true) {
                 System.out.println("\nMenú Principal:");
@@ -205,11 +201,13 @@ public class Homebanking {
             System.out.println("Una o ambas cuentas no existen.");
         }
     }
-    // Método para mostrar el menú de inversiones
-    private void Inversión() {
+
+    // Mostrar el menú de inversiones
+    private void Inversion() {
         Inversion inversion = new Inversion(scanner, usuarioActual);
         inversion.mostrarMenu();
     }
+
     // Mostrar el saldo de las cuentas del usuario actual
     private void mostrarSaldo() {
         if (usuarioActual == null) {
@@ -250,7 +248,7 @@ public class Homebanking {
                     realizarTransaccion();
                     break;
                 case 3:
-                    Inversión();
+                    Inversion();
                     break;
                 case 4:
                     mostrarSaldo();
