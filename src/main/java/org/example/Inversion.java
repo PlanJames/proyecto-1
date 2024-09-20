@@ -31,7 +31,7 @@ public class Inversion {
                 invertirEnCedear();
                 break;
             case 3:
-                invertirEnCriptomoneda();  // Nueva función para criptomonedas
+                mostrarMenuCriptomonedas();
                 break;
             default:
                 System.out.println("Opción no válida. Por favor, elija una opción correcta.");
@@ -162,6 +162,53 @@ public class Inversion {
         return false;  // No tiene suficiente saldo en ninguna cuenta
     }
     private static final double TASA_USD_ARS = 1250.0;  // Tasa de cambio fija para convertir USD a ARS
+
+    private void mostrarMenuCriptomonedas() {
+        System.out.println("Opciones para invertir en Criptomonedas:");
+        System.out.println("1. Ver criptomonedas disponibles");
+        System.out.println("2. Invertir en una criptomoneda");
+
+        int opcion = scanner.nextInt();
+        scanner.nextLine();  // Consumir la nueva línea
+
+        switch (opcion) {
+            case 1:
+                mostrarCriptomonedasDisponibles();
+                mostrarMenuCriptomonedas();  // Vuelve al menú de criptomonedas después de mostrar la lista
+                break;
+            case 2:
+                invertirEnCriptomoneda();
+                break;
+            default:
+                System.out.println("Opción no válida.");
+                mostrarMenuCriptomonedas();  // Repetir el menú si la opción es inválida
+                break;
+        }
+    }
+
+    private void mostrarCriptomonedasDisponibles() {
+        System.out.println("Criptomonedas disponibles para invertir:");
+
+        InputStream inputStream = getClass().getClassLoader().getResourceAsStream("criptomonedas.txt");
+        if (inputStream == null) {
+            System.out.println("No se encontró el archivo de criptomonedas.");
+            return;
+        }
+
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(inputStream))) {
+            String linea;
+            while ((linea = br.readLine()) != null) {
+                String[] partes = linea.split(",");
+                String simbolo = partes[0].trim();
+                String nombre = partes[1].trim();
+                String valorActual = partes[2].trim();
+                System.out.println(simbolo + " - " + nombre + " - " + valorActual);
+            }
+        } catch (IOException e) {
+            System.out.println("Error al leer el archivo de criptomonedas.");
+        }
+    }
+
 
     private void invertirEnCriptomoneda() {
         System.out.println("Ha elegido invertir en Criptomonedas.");
