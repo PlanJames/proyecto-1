@@ -1,4 +1,4 @@
-package org.example;
+package org.example.inversion;
 
 public class Criptomoneda {
     private String nombre;
