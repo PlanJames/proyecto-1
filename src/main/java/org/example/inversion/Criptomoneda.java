@@ -24,10 +24,6 @@ public class Criptomoneda {
         return valorActual;
     }
 
-    public void setValorActual(double valorActual) {
-        this.valorActual = valorActual;
-    }
-
     @Override
     public String toString() {
         return nombre + " (" + simbolo + ") - $" + valorActual;

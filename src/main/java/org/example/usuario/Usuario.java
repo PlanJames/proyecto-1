@@ -42,10 +42,6 @@ public class Usuario {
         return nombreUsuario;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
     // Agregar una cuenta a la lista de cuentas del usuario
     public void agregarCuenta(Cuenta cuenta) {
         cuentas.add(cuenta);
