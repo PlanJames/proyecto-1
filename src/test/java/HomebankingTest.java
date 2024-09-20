@@ -1,5 +1,5 @@
 import org.example.Homebanking;
-import org.example.TipoDeCuenta;
+import org.example.usuario.TipoDeCuenta;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
