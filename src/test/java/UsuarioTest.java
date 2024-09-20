@@ -1,6 +1,6 @@
-import org.example.usuario.Cuenta;
-import org.example.usuario.TipoDeCuenta;
-import org.example.usuario.Usuario;
+import org.example.Cuenta;
+import org.example.TipoDeCuenta;
+import org.example.Usuario;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 

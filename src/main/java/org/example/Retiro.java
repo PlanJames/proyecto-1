@@ -1,6 +1,4 @@
-package org.example.transaccion;
-import org.example.usuario.TipoDeCuenta;
-
+package org.example;
 import java.util.Date;
 public class Retiro {
     public class Extraccion extends MLTransaccion {

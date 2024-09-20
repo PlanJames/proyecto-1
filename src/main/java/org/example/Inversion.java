@@ -1,7 +1,4 @@
-package org.example.inversiones;
-
-import org.example.usuario.Cuenta;
-import org.example.usuario.Usuario;
+package org.example;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
