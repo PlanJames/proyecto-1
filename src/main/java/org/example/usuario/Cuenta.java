@@ -13,10 +13,14 @@ public class Cuenta {
     private double saldo;  // Saldo actual de la cuenta
 
     // Constructor
-    public Cuenta(TipoDeCuenta tipoDeCuenta, String numeroCuenta, double saldoInicial) {
+    public Cuenta(TipoDeCuenta tipoDeCuenta, double saldoInicial) {
         this.tipoDeCuenta = tipoDeCuenta;
         this.numeroCuenta = UUID.randomUUID();
         this.saldo = saldoInicial;
+    }
+
+    public TipoDeCuenta getTipoDeCuenta() {
+        return tipoDeCuenta;
     }
 
     // Obtener el número de cuenta

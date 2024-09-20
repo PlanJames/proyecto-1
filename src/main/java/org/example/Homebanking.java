@@ -16,7 +16,8 @@ public class Homebanking {
     private Scanner scanner = new Scanner(System.in);
 
     // Constructor
-    public Homebanking() {}
+    public Homebanking() {
+    }
 
     // Registrar un nuevo usuario en el sistema
     public void registrarUsuario() {
@@ -127,8 +128,8 @@ public class Homebanking {
             System.out.println("Entrada inválida. Por favor, ingrese un número.");
             scanner.nextLine(); // Limpiar el buffer del scanner
         } catch (Exception e) {
-        System.out.println("Error en el sistema: " + e.getMessage());
-        e.printStackTrace(); // Para depuración
+            System.out.println("Error en el sistema: " + e.getMessage());
+            e.printStackTrace(); // Para depuración
         } finally {
             scanner.close(); // Cerrar el scanner al finalizar
         }
@@ -155,6 +156,7 @@ public class Homebanking {
             return;
         }
 
+        // Elegir tipo de cuenta
         System.out.println("1. " + TipoDeCuenta.CUENTA_CORRIENTE);
         System.out.println("2. " + TipoDeCuenta.CAJA_DE_AHORRO);
         System.out.println("3. " + TipoDeCuenta.PLAZO_FIJO);
@@ -167,14 +169,16 @@ public class Homebanking {
             return;
         }
 
-        System.out.println("Ingrese el DNI de la cuenta:");
-        String cuentaId = scanner.nextLine();
-
-        if (cuentas.containsKey(cuentaId)) {
-            System.out.println("La cuenta ya existe.");
-            return;
+        // Verificar si el usuario ya tiene una cuenta de este tipo
+        List<Cuenta> cuentasUsuario = usuarioActual.getCuentas();
+        for (Cuenta cuenta : cuentasUsuario) {
+            if (cuenta.getTipoDeCuenta() == tipoDeCuenta) {
+                System.out.println("Ya tienes una cuenta de tipo " + tipoDeCuenta + ".");
+                return;  // Salir si ya tiene una cuenta del mismo tipo
+            }
         }
 
+        // Solicitar saldo inicial
         System.out.println("Ingrese el saldo inicial de la cuenta:");
         double saldoInicial;
         try {
@@ -184,29 +188,32 @@ public class Homebanking {
             return;
         }
 
-        Cuenta cuenta = new Cuenta(tipoDeCuenta, cuentaId, saldoInicial);
-        usuarioActual.agregarCuenta(cuenta);
-        cuentas.put(cuentaId, cuenta);
+        // Crear la cuenta
+        Cuenta cuenta = new Cuenta(tipoDeCuenta, saldoInicial);
 
-        // Guardar la cuenta en el archivo
+        // Agregar la cuenta al usuario actual
+        usuarioActual.agregarCuenta(cuenta);
+
+        // Guardar la cuenta en el archivo, usando el DNI del usuario actual
         cuenta.guardarCuenta(fileHandler, "cuentas.txt", String.valueOf(usuarioActual.getDni()));
 
-        System.out.println("Cuenta abierta con DNI: " + cuentaId);
+        System.out.println("Cuenta abierta exitosamente con saldo inicial de: $" + saldoInicial);
     }
-
+    
 
     // Realizar una transacción entre dos cuentas
     private void realizarTransaccion() {
-        System.out.println("Ingrese el DNI de la cuenta origen:");
+        System.out.println("Ingrese el ID de la cuenta origen (UUID):");
         String cuentaOrigenId = scanner.nextLine();
 
-        System.out.println("Ingrese el DNI de la cuenta destino:");
+        System.out.println("Ingrese el ID de la cuenta destino (UUID):");
         String cuentaDestinoId = scanner.nextLine();
 
         System.out.println("Ingrese el monto a transferir:");
         double cantidad = scanner.nextDouble();
         scanner.nextLine();  // Consumir la nueva línea
 
+        // Buscar las cuentas por UUID en lugar de por DNI
         Cuenta cuentaOrigen = cuentas.get(cuentaOrigenId);
         Cuenta cuentaDestino = cuentas.get(cuentaDestinoId);
 
@@ -217,6 +224,7 @@ public class Homebanking {
             System.out.println("Una o ambas cuentas no existen.");
         }
     }
+
 
     // Mostrar el menú de inversiones
     private void Inversion() {
