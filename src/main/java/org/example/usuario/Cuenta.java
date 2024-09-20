@@ -33,7 +33,7 @@ public class Cuenta {
     public void setSaldo(double nuevoSaldo) {
         this.saldo = nuevoSaldo;
     }
-    
+
     // Depositar una cantidad en la cuenta
     public void depositar(double cantidad) {
         saldo += cantidad;
