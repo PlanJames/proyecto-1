@@ -1,6 +1,7 @@
 package org.example;
 
 import org.example.inversion.Inversion;
+import org.example.transaccion.Transaccion;
 import org.example.usuario.Cuenta;
 import org.example.usuario.TipoDeCuenta;
 import org.example.usuario.Usuario;
@@ -250,9 +251,9 @@ public class Homebanking {
             return;
         }
 
-        // Ingresar el UUID de la cuenta destino (ficticio)
-        System.out.println("Ingrese el UUID de la cuenta destino (ficticio):");
-        String UUIDCuentaDestino = scanner.nextLine(); // Este UUID no se validará
+        // Ingresar el alias de la cuenta destino
+        System.out.println("Ingrese el UUID de la cuenta destino:");
+        String UUIDCuentaDestino = scanner.nextLine();
 
         // Solicitar el monto de la transacción
         System.out.println("Ingrese el monto a transferir:");
@@ -279,14 +280,19 @@ public class Homebanking {
             return;
         }
 
-        // Realizar la transacción (restar el monto de la cuenta origen)
-        cuentaOrigen.restarSaldo(cantidad); // Llamamos al método 'restarSaldo'
+        // Realizar la transacción
+        try {
+            // Restar el monto de la cuenta origen
+            cuentaOrigen.restarSaldo(cantidad);
 
-        // Registrar la transacción de manera ficticia
-        String lineaTransaccion = "Transferencia ficticia de " + cantidad + " a la cuenta destino alias: " + UUIDCuentaDestino;
-        fileHandler.guardarEnArchivo("transacciones.txt", lineaTransaccion);
+            // Registrar la transacción de manera ficticia
+            String lineaTransaccion = "Transferencia ficticia de " + cantidad + " a " + UUIDCuentaDestino;
+            fileHandler.guardarEnArchivo("transacciones.txt", lineaTransaccion);
 
-        System.out.println("Transacción realizada: " + cantidad + " de " + cuentaOrigen.getNumeroCuenta() + " a la cuenta destino alias: " + UUIDCuentaDestino);
+            System.out.println("Transacción realizada: " + cantidad + " de " + cuentaOrigen.getNumeroCuenta() + " a " + UUIDCuentaDestino);
+        } catch (Exception e) {
+            System.out.println("Error al realizar la transacción: " + e.getMessage());
+        }
     }
 
     // Mostrar el menú de inversiones
