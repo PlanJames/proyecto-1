@@ -1,8 +1,5 @@
-package org.example.transaccion;
+package org.example;
 
-
-import org.example.FileHandler;
-import org.example.usuario.Cuenta;
 
 public class Transaccion {
     // Realizar una transferencia entre dos cuentas

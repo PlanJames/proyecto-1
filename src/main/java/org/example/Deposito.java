@@ -1,6 +1,6 @@
-package org.example.transaccion;
+package org.example;
 
-import org.example.usuario.TipoDeCuenta;
+import org.example.MLTransaccion;
 
 import java.util.Date;
 
