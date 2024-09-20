@@ -75,12 +75,16 @@ public class Cuenta {
 
     // Restar saldo en la cuenta
     public void restarSaldo(double cantidad) {
-        if (cantidad <= 0) {
-            throw new IllegalArgumentException("La cantidad a restar debe ser mayor que cero.");
+        try {
+            if (cantidad <= 0) {
+                throw new IllegalArgumentException("La cantidad a restar debe ser mayor que cero.");
+            }
+            if (saldo < cantidad) {
+                throw new IllegalArgumentException("Fondos insuficientes en la cuenta.");
+            }
+            saldo -= cantidad;
+        } catch (IllegalArgumentException e) {
+            System.out.println("Error al restar saldo: " + e.getMessage());
         }
-        if (saldo < cantidad) {
-            throw new IllegalArgumentException("Fondos insuficientes en la cuenta.");
-        }
-        saldo -= cantidad;
     }
 }
