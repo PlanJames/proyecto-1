@@ -29,3 +29,8 @@ c8ccf26a-b360-4f09-8d78-90633469b63b,1000000.0,436453654
 46836221,tipo de cuenta: Cuenta Corriente,6fdd4c8a-e4be-48d5-800a-902e3f44320c,1000000.0
 46836221,tipo de cuenta: Cuenta Corriente,b29a577b-8b70-4fd7-99bb-e5b55470e884,1000.0
 47,tipo de cuenta: Cuenta Corriente,65e29127-a271-4be5-8893-82a29c4f4914,100000.0
+34,tipo de cuenta: Cuenta Corriente,a04ee29d-7b6e-4b7a-93ba-001320b5b7c2,1000000.0
+123,tipo de cuenta: Cuenta Corriente,670d830f-2e6e-44d7-8039-b5b2233b07c5,1000000.0
+123,tipo de cuenta: Caja de ahorro,01cb3d7a-ff84-4aac-9da6-4019dd28c1d5,1000000.0
+123,tipo de cuenta: Plazo Fijo,a6234d55-9940-42f1-a913-790063cba307,1.0E10
+123,tipo de cuenta: Cuenta Corriente,0da2b00d-0715-4e98-869f-709b99c4af2b,1.0E7

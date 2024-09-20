@@ -15,7 +15,6 @@ public class Usuario {
     private String password;
     private List<Cuenta> cuentas = new ArrayList<>();  // Lista de cuentas asociadas al usuario
 
-    // Constructor
     public Usuario(String nombre, int dni, String direccion, String telefono, String email, String nombreUsuario, String password) {
         this.nombre = nombre;
         this.dni = dni;

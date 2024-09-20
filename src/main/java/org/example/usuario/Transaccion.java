@@ -1,7 +1,6 @@
-package org.example.transaccion;
+package org.example.usuario;
 
 
-import org.example.usuario.Cuenta;
 import org.example.FileHandler;
 
 public class Transaccion {
