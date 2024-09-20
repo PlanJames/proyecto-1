@@ -199,7 +199,7 @@ public class Homebanking {
 
         System.out.println("Cuenta abierta exitosamente con saldo inicial de: $" + saldoInicial);
     }
-    
+
 
     // Realizar una transacción entre dos cuentas
     private void realizarTransaccion() {
@@ -214,8 +214,6 @@ public class Homebanking {
         System.out.println("1. " + TipoDeCuenta.CUENTA_CORRIENTE);
         System.out.println("2. " + TipoDeCuenta.CAJA_DE_AHORRO);
         System.out.println("Ingrese el número correspondiente al tipo de cuenta:");
-
-        // Leer la opción del usuario
         int tipoSeleccionado = scanner.nextInt();
         scanner.nextLine(); // Consumir la nueva línea
 
@@ -253,19 +251,9 @@ public class Homebanking {
             return;
         }
 
-        // Ingresar el ID de la cuenta destino
-        System.out.println("Ingrese el ID de la cuenta destino (UUID):");
-        System.out.println("UUIDs disponibles: " + cuentas.keySet());
-        String cuentaDestinoId = scanner.nextLine();
-
-        // Buscar la cuenta destino por UUID
-        Cuenta cuentaDestino = cuentas.get(cuentaDestinoId);
-
-        // Validar existencia de la cuenta destino
-        if (cuentaDestino == null) {
-            System.out.println("La cuenta destino no existe.");
-            return;
-        }
+        // Ingresar el alias de la cuenta destino
+        System.out.println("Ingrese el UUID de la cuenta destino:");
+        String UUIDCuentaDestino = scanner.nextLine();
 
         // Solicitar el monto de la transacción
         System.out.println("Ingrese el monto a transferir:");
@@ -285,7 +273,7 @@ public class Homebanking {
         }
 
         // Confirmar la transacción
-        System.out.println("¿Confirma la transferencia de " + cantidad + " a la cuenta destino " + cuentaDestinoId + "? (s/n)");
+        System.out.println("¿Confirma la transferencia de " + cantidad + " a la cuenta destino alias: " + UUIDCuentaDestino + "? (s/n)");
         String confirmacion = scanner.nextLine();
         if (!confirmacion.equalsIgnoreCase("s")) {
             System.out.println("Transacción cancelada.");
@@ -294,8 +282,14 @@ public class Homebanking {
 
         // Realizar la transacción
         try {
-            Transaccion.transfiera(cuentaOrigen, cuentaDestino, cantidad, fileHandler, "transacciones.txt");
-            System.out.println("Transacción realizada: " + cantidad + " de " + cuentaOrigen.getNumeroCuenta() + " a " + cuentaDestinoId);
+            // Restar el monto de la cuenta origen
+            cuentaOrigen.restarSaldo(cantidad);
+
+            // Registrar la transacción de manera ficticia
+            String lineaTransaccion = "Transferencia ficticia de " + cantidad + " a " + UUIDCuentaDestino;
+            fileHandler.guardarEnArchivo("transacciones.txt", lineaTransaccion);
+
+            System.out.println("Transacción realizada: " + cantidad + " de " + cuentaOrigen.getNumeroCuenta() + " a " + UUIDCuentaDestino);
         } catch (Exception e) {
             System.out.println("Error al realizar la transacción: " + e.getMessage());
         }
