@@ -28,3 +28,5 @@ c8ccf26a-b360-4f09-8d78-90633469b63b,1000000.0,436453654
 45265415,tipo de cuenta: Cuenta Corriente,069dea56-72e6-4cc6-9910-b226ee15fbfa,1000000.0
 46836221,tipo de cuenta: Cuenta Corriente,6fdd4c8a-e4be-48d5-800a-902e3f44320c,1000000.0
 46836221,tipo de cuenta: Cuenta Corriente,b29a577b-8b70-4fd7-99bb-e5b55470e884,1000.0
+46836221,tipo de cuenta: Cuenta Corriente,04aa8f8b-4a35-476f-8992-998aeea96783,10000.0
+46836221,tipo de cuenta: Cuenta Corriente,dc7d0ff8-732d-49cb-85a0-8b002f759056,10000.0
