@@ -1,4 +1,6 @@
-package org.example;
+package org.example.usuario;
+
+import org.example.FileHandler;
 
 import java.io.BufferedReader;
 import java.io.FileReader;

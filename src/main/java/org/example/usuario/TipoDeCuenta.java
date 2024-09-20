@@ -1,4 +1,4 @@
-package org.example;
+package org.example.usuario;
 
 public enum TipoDeCuenta {
     CUENTA_CORRIENTE("Cuenta Corriente", 1.5),

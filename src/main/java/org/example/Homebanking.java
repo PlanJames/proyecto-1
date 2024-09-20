@@ -1,5 +1,11 @@
 package org.example;
 
+import org.example.inversion.Inversion;
+import org.example.transaccion.Transaccion;
+import org.example.usuario.Cuenta;
+import org.example.usuario.TipoDeCuenta;
+import org.example.usuario.Usuario;
+
 import java.util.*;
 
 public class Homebanking {
