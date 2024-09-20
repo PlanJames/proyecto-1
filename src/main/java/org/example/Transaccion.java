@@ -1,6 +1,5 @@
 package org.example;
 
-import java.io.IOException;
 
 public class Transaccion {
     // Realizar una transferencia entre dos cuentas
