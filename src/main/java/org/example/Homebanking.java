@@ -238,7 +238,7 @@ public class Homebanking {
         } else {
             System.out.println("Saldos de sus cuentas:");
             for (Cuenta cuenta : cuentasUsuario) {
-                System.out.println("Cuenta: " + cuenta.getNumeroCuenta() + " | Saldo: $" + cuenta.getSaldo());
+                System.out.println("Cuenta: " + usuarioActual.getDni() + " | Saldo: $" + cuenta.getSaldo());
             }
         }
     }
