@@ -5,7 +5,6 @@ public class Criptomoneda {
     private String simbolo;
     private double valorActual;  // Valor de la criptomoneda en USD
 
-    // Constructor
     public Criptomoneda(String nombre, String simbolo, double valorActual) {
         this.nombre = nombre;
         this.simbolo = simbolo;

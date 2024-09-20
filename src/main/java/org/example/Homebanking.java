@@ -1,7 +1,6 @@
 package org.example;
 
 import org.example.inversion.Inversion;
-import org.example.transaccion.Transaccion;
 import org.example.usuario.Cuenta;
 import org.example.usuario.TipoDeCuenta;
 import org.example.usuario.Usuario;
@@ -15,7 +14,7 @@ public class Homebanking {
     private FileHandler fileHandler = new FileHandler();  // Instancia de FileHandler para manejar archivos
     private Scanner scanner = new Scanner(System.in);
 
-    // Constructor
+
     public Homebanking() {
     }
 
