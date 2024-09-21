@@ -277,6 +277,4 @@ public class Inversion {
         }
         return null;
     }
-
-
 }
