@@ -1,5 +1,8 @@
 
 Juan Ignacio Flores,46967607,Mendoza 1155,3412625907,juanignacioflores9@gmail.com,12345,j
+Manuel Lafosse,47103371,28 este 125,5493364348716,dia.manuel.lafosse@gmail.com,manuel16,Manu
+MANUEL LAFOSSE,47103371,28 este 125,5493364348716,dia.manuel.lafosse@gmail.com,manuel16,Manu
+manuel lafosse,47103371,28 este125,3364348716,dia.manuel.lafosse@gmail.com,manuel,manu
 flor romero,46836221,sjdfhkjsfh 123,65464566,fdsafgsag,flopy,123
 j f,3463564,kajdeasd,3243242,juansdia@gmial.com,jf,j123
 sdgfdfgd,67896786,dsgdsfd,12423423,uhausdfna@gmail.com,jif,jf12345
